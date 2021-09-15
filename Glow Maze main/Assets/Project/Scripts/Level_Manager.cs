@@ -11,14 +11,19 @@ public class Level_Manager : MonoBehaviour
     [SerializeField] private GameObject wallTilePrefab;
     [SerializeField] private GameObject roadTilePrefab;
 
+    [HideInInspector] public List<Road_Tile> roadTile_List = new List<Road_Tile>();
+    [HideInInspector] public Road_Tile defaultBall_RoadTile;
+
     private Color wallPixelColor = Color.white;
     private Color roadPixelColor = Color.black;
 
     private float unitPerPixel;
 
-    void Start()
+    private void Awake()
     {
         Generate();
+
+        defaultBall_RoadTile = roadTile_List[0];
     }
 
     private void Generate()
@@ -61,5 +66,10 @@ public class Level_Manager : MonoBehaviour
         position.y = tilePrefab.transform.position.y;
 
         GameObject obj = Instantiate(tilePrefab, position, Quaternion.identity, transform);
+
+        if(tilePrefab == roadTilePrefab)
+        {
+            roadTile_List.Add(obj.GetComponent<Road_Tile>());
+        }
     }
 }
